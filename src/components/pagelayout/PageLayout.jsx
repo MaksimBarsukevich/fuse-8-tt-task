@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../header/Header";
 import { Body } from "../body/Body";
 import "./pagelayout.sass";
@@ -6,7 +6,10 @@ import "./pagelayout.sass";
 const PageLayout = () => {
   const [data, setData] = useState({ error: null, isLoaded: false, items: [] });
 
-  const componentDidMount = () => {
+  const [filter, setFilter] = useState('')
+  
+  
+  useEffect(() => {
     if (!data.isLoaded) {
       fetch("https://603e38c548171b0017b2ecf7.mockapi.io/homes")
         .then((res) => res.json())
@@ -19,14 +22,12 @@ const PageLayout = () => {
           }
         );
     }
-  };
-  componentDidMount();
-  console.log(data);
+  });
 
   return (
     <div className="home-shop">
-      <Header></Header>
-      <Body data={data}></Body>
+      <Header setFilter={setFilter}></Header>
+      <Body data={data} filter={filter}></Body>
     </div>
   );
 };
